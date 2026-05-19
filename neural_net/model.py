@@ -19,7 +19,7 @@ class Sequential:
             grad = layer.backward(grad)
         return grad
 
-    def fit(self, X, y, epochs, batch_size, optimizer, loss_fn):
+    def fit(self, X, y, epochs, batch_size, optimizer, loss_fn, X_val=None, y_val=None):
         num_samples = X.shape[0]
         
         for epoch in range(epochs):
@@ -39,18 +39,25 @@ class Sequential:
                 y_batch = y_shuffled[start_idx:end_idx]
                 
                 y_pred = self.forward(X_batch)
-                
                 loss = loss_fn.forward(y_pred, y_batch)
                 epoch_loss += loss * (end_idx - start_idx)
                 
                 loss_grad = loss_fn.backward(y_pred, y_batch)
-                
                 self.backward(loss_grad)
+                
+                if hasattr(optimizer, 't'):
+                    optimizer.t += 1
                 
                 for idx, layer in enumerate(self.layers):
                     if hasattr(layer, 'weights'):
                         optimizer.update(layer, idx)
                         
             epoch_loss /= num_samples
+            
             if (epoch + 1) % max(1, epochs // 10) == 0 or epoch == 0:
-                print(f"Epoch {epoch+1}/{epochs} - Loss: {epoch_loss:.4f}")
+                print_str = f"Epoch {epoch+1:3d}/{epochs} - Train Loss: {epoch_loss:.4f}"
+                if X_val is not None and y_val is not None:
+                    y_val_pred = self.forward(X_val)
+                    val_loss = loss_fn.forward(y_val_pred, y_val)
+                    print_str += f" | Val Loss: {val_loss:.4f}"
+                print(print_str)
