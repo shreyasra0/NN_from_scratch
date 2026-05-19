@@ -2,7 +2,7 @@
 
 A high-performance deep learning framework engineered entirely from first principles in Python and NumPy. This repository contains zero high-level deep learning library dependencies (no PyTorch, TensorFlow, or JAX). Every mathematical operation—from forward-pass tensor gating to backpropagation and adaptive weight decay—is written by hand.
 
-> **Note on Engineering Rigor:** This framework was built on exact mathematical derivations and rigorous optimization mechanics. No vibe coding, no guessing hyperparameters, and no opaque abstractions. Every gradient calculation, moment vector, and weight decay step is derived explicitly from foundational machine learning theory.
+> **Note on Engineering Rigor:** This framework was built on exact mathematical derivations and rigorous optimization mechanics. No vibe coding, no guessing hyperparameters, and no opaque abstractions. Every gradient calculation, moment vector, and weight decay step is derived explicitly from foundational machine learning theory. Outside of the readMe of course. 
 
 ---
 
